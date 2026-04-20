@@ -5,5 +5,5 @@ from .models import *
 
 admin.site.register(Profile)
 admin.site.register(Job)
-
-
+admin.site.register(Resume)
+admin.site.register(Application)
