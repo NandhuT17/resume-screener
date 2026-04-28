@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.contrib.auth import authenticate, login, logout
 from .forms import LoginForm
+from django.shortcuts import get_object_or_404
 
 
 # Create your views here.
@@ -64,3 +65,10 @@ def create_job(request) :
             'form' : form,
         }
         return render(request,'core/create_job.html',context)
+
+def delete_job(request,job_id) :
+    job = get_object_or_404(Job, id = job_id)
+    if request.method == "POST" :
+        job.delete()
+        return redirect('recruiter_dashboard')
+    return render(request,'core/delete_job.html')

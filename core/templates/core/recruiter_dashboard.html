@@ -15,7 +15,7 @@
             <b>{{ job.title }}</b> - {{ job.location }}
             <br>
             <a href="">Edit</a>
-            <a href="">Delete</a>
+            <a href="{% url 'delete_job' job.id%}">Delete</a>
         </li>
     {% empty %}
         <li>No jobs posted yet.</li>
