@@ -38,3 +38,29 @@ def login_view(request):
 def logout_view(request):
     logout(request)
     return redirect('login')
+
+
+def recruiter_dashboard(request) :
+    jobs = Job.objects.filter(recruiter = request.user)
+    context = {
+        'jobs' : jobs,
+    }
+    return render(request,'core/recruiter_dashboard.html',context)
+
+
+def create_job(request) :
+    if request.method == "POST" :
+        form = JobForm(request.POST)
+        if form.is_valid() :
+            job = form.save(commit = False)
+            job.recruiter = request.user
+            job.save()
+
+            return redirect('recruiter_dashboard')
+    else :
+        form = JobForm()
+
+        context = {
+            'form' : form,
+        }
+        return render(request,'core/create_job.html',context)

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Recruiter Dashboard</title>
+</head>
+<body>
+
+<h2>Your Jobs</h2>
+
+<a href="{% url 'create_job' %}">Post New Job</a>
+
+<ul>
+    {% for job in jobs %}
+        <li>
+            <b>{{ job.title }}</b> - {{ job.location }}
+            <br>
+            <a href="">Edit</a>
+            <a href="">Delete</a>
+        </li>
+    {% empty %}
+        <li>No jobs posted yet.</li>
+    {% endfor %}
+</ul>
+
+</body>
+</html>
