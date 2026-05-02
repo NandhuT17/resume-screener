@@ -7,4 +7,5 @@ urlpatterns = [
     path('recruiter_dashboard/', views.recruiter_dashboard, name="recruiter_dashboard"),
     path('create_job/',views.create_job, name="create_job"),
     path('delete_job/<int:job_id>/',views.delete_job, name="delete_job"),
+    path('update_job<int:job_id>/',views.update_job, name='update_job'),
 ]

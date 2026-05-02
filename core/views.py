@@ -24,7 +24,7 @@ def login_view(request):
 
             if user is not None:
                 login(request, user)
-                return redirect('core/recruiter_dashboard')
+                return redirect('recruiter_dashboard')
             else:
                 context = {
                     'form' : form,
@@ -40,7 +40,7 @@ def logout_view(request):
     logout(request)
     return redirect('login')
 
-
+@login_required
 def recruiter_dashboard(request) :
     jobs = Job.objects.filter(recruiter = request.user)
     context = {
@@ -48,7 +48,7 @@ def recruiter_dashboard(request) :
     }
     return render(request,'core/recruiter_dashboard.html',context)
 
-
+@login_required
 def create_job(request) :
     if request.method == "POST" :
         form = JobForm(request.POST)
@@ -66,9 +66,26 @@ def create_job(request) :
         }
         return render(request,'core/create_job.html',context)
 
+@login_required
 def delete_job(request,job_id) :
     job = get_object_or_404(Job, id = job_id)
     if request.method == "POST" :
         job.delete()
         return redirect('recruiter_dashboard')
     return render(request,'core/delete_job.html')
+
+@login_required
+def update_job(request, job_id):
+    job = get_object_or_404(Job, id = job_id, recruiter=request.user)
+    if request.method == 'POST':
+        form = JobForm(request.POST, instance=job)
+        if form.is_valid():
+            form.save()
+            return redirect('recruiter_dashboard')
+    else:
+        form = JobForm(instance=job)
+
+    context = {
+        'form' : form,
+    }
+    return render(request, 'core/create_job.html', context)
